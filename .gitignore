@@ -1,3 +1,8 @@
 *.meta
 *.asset
 *.prefab
+*.json
+*.mat
+*.unity
+*.json
+Assets/PandaBehaviour
