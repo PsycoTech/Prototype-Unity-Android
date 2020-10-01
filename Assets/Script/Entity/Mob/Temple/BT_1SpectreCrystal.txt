@@ -1,0 +1,21 @@
+tree "Alive"
+    fallback
+        tree "Attack"
+        tree "Reset"
+
+tree "Attack"
+    sequence
+        SensorAny
+        not IsTimer 0
+        mute
+            sequence
+                MoveToTrigger
+                IsMoveEntity
+                DoFlag 0 1 3.0
+                DoAttack 0 0 0
+                SetTimer 0 15.0
+
+tree "Reset"
+    sequence
+        SetTimer 1 0.0
+        SetFlag 0 0

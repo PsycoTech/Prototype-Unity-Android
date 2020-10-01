@@ -1,0 +1,82 @@
+tree "Alive"
+    fallback
+        tree "Sleep"
+        tree "Wander"
+        tree "Investigate"
+        tree "Attack"
+        tree "Pursue"
+        tree "Search"
+
+tree "Sleep"
+    sequence
+        not SensorAny
+        IsFlag 0
+        mute
+            sequence
+                not IsTimer 0
+                SetFlag 0 0
+                SetTimer 1 15.0
+
+tree "Wander"
+    sequence
+        EntityToMove
+        SetVisions 1
+        SetFlag 0 0
+        IsBored
+        EntitySpeed 1.0
+        mute
+            sequence
+                fallback
+                    IsMoveWaypoint
+                    MoveToWaypoint
+                EntityAtMove 1.0
+                tree "Hold"
+
+tree "Hold"
+    sequence
+        EntitySpeed 0.0
+        ScanVision 2.0 2.0 10.0
+        fallback
+            sequence
+                not IsTimer 1
+                SetFlag 0 1
+                SetTimer 0 7.0
+                SetVisions 0
+            MoveToWaypoint
+
+tree "Investigate"
+    sequence
+        EntitySpeed 1.2
+        mute
+            fallback
+                MoveToTrigger
+                MoveToVision
+        not IsAware
+        tree "Search"
+
+tree "Search"
+    mute
+        sequence
+            EntityAtMove 1.0
+            ScanVision 2.0 2.0 15.0
+            MoveToOffsetRadius 10.0
+
+tree "Attack"
+    sequence
+        IsAlert
+        IsMoveEntity
+        EntityAtMove 3.0
+        not IsTimer 0
+        EntitySpeed 0.0
+        IsDirection 15.0
+        DoAttack 0 0 1
+        EntityForceToMove 15.0
+        Wait 1.0
+        SetTimer 0 4.0
+        UnsetAlert
+
+tree "Pursue"
+    sequence
+        IsMoveEntity
+        EntityAtMove 7.0
+        EntitySpeed 1.5

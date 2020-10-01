@@ -1,0 +1,12 @@
+{
+    "files.exclude": {
+        ".vscode": true,
+        "**/*.asset": true,
+        "**/*.meta": true,
+        "**/*.prefab": true,
+        "**/*.unity": true,
+        "PandaBehaviour": true,
+        "Resources": true,
+        "Scenes": true
+    }
+}

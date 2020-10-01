@@ -1,0 +1,48 @@
+tree "Alive"
+    fallback
+        tree "Hide"
+        tree "Investigate"
+        tree "Attack"
+        tree "Search"
+
+tree "Hide"
+    sequence
+        EntityToMove
+        EntitySpeed 0.5
+        not SensorAny
+        IsBored
+        SetAttack 0 0
+        mute
+            sequence
+                fallback
+                    IsMoveWaypoint
+                    MoveToWaypoint
+                EntityAtMove 1.5
+                SetSprite 0
+
+tree "Investigate"
+    sequence
+        SetSprite 1
+        SetAttack 0 1
+        mute
+            MoveToTrigger
+        not IsAware
+        tree "Search"
+
+tree "Search"
+    mute
+        sequence
+            EntityAtMove 1.0
+            ScanVision 3.0 3.0 0.0
+            MoveToOffsetRadius 7.0
+
+tree "Attack"
+    sequence
+        IsAlert
+        IsMoveEntity
+        mute
+            sequence
+                EntityAtMove 0.1
+                EntitySpeed 0.0
+                Wait 1.0
+                UnsetAlert

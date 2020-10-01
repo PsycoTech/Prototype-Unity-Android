@@ -1,0 +1,34 @@
+tree "Alive"
+    fallback
+        tree "Wander"
+        tree "Attack"
+
+tree "Wander"
+    sequence
+        EntityToMove
+        EntitySpeed 0.7
+        not SensorAny
+        IsBored
+        mute
+            sequence
+                fallback
+                    IsMoveWaypoint
+                    MoveToWaypointOffset
+                tree "Hold"
+
+tree "Hold"
+    sequence
+        EntityAtMove 1.5
+        Wait 2.0
+        MoveToWaypointOffset
+
+tree "Attack"
+    sequence
+        MoveToTrigger
+        IsAlert
+        EntityAtMove 2.0
+        EntitySpeed 0.0
+        IsDirection 15.0
+        DoAttack 0 0 0
+        Wait 3.0
+        UnsetAlert

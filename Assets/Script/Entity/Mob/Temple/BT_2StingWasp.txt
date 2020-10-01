@@ -1,0 +1,50 @@
+tree "Alive"
+    fallback
+        tree "Wander"
+        tree "Attack"
+
+tree "Wander"
+    sequence
+        EntityToMove
+        EntitySpeed 1.0
+        not SensorAny
+        IsBored
+        mute
+            sequence
+                fallback
+                    IsMoveWaypoint
+                    MoveToWaypoint
+                EntityAtMove 3.0
+                EntitySpeed 0.0
+                tree "Sway"
+
+tree "Sway"
+    mute
+        sequence
+            not IsTimer 0
+            EntityForceRandom 3.0
+            SetTimerRandom 0 2.0 3.0
+
+tree "Attack"
+    sequence
+        mute
+            fallback
+                MoveToTrigger
+                MoveToVision
+        IsAlert
+        IsMoveEntity
+        mute
+            sequence
+                EntityAtMove 3.0
+                EntitySpeed 0.0
+                IsDirection 15.0
+                EntityForceToMove 5.0
+                DoAttack 0 0 1
+                Wait 1.0
+
+tree "Search"
+    mute
+        sequence
+            EntityAtMove 1.0
+            ScanVision 3.0 3.0 45.0
+            MoveToOffsetRadius 5.0

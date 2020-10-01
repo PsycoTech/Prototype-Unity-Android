@@ -1,0 +1,69 @@
+tree "Alive"
+    sequence
+        EntityToMove
+        tree "Sense"
+        fallback
+            while
+                IsSensors
+                EntitySpeed 2.0
+            EntitySpeed 0.5
+        fallback
+            tree "Wander"
+            tree "Investigate"
+            tree "Attack"
+            tree "Search"
+
+tree "Sense"
+    fallback
+        sequence
+            not IsTimer 1
+            IsMoveFluid
+            IsFluid
+            SetSensors 1
+        while
+            SetSensors 0
+            SetTimer 1 2.0
+
+tree "Wander"
+    sequence
+        not SensorAny
+        fallback
+            IsBored
+            not IsSensors
+        mute
+            sequence
+                fallback
+                    IsMoveWaypoint
+                    MoveToWaypointOffset
+                EntityAtMove 2.0
+                MoveToWaypointOffset
+
+tree "Investigate"
+    sequence
+        mute
+            fallback
+                MoveToTrigger
+                MoveToVision
+        not IsAware
+        tree "Search"
+
+tree "Search"
+    mute
+        sequence
+            EntityAtMove 1.0
+            MoveToOffsetRadius 5.0
+
+tree "Attack"
+    sequence
+        IsAlert
+        IsMoveEntity
+        mute
+            sequence
+                not IsTimer 0
+                EntityAtMove 3.0
+                EntitySpeed 0.0
+                DoAttack 0 0 1
+                EntityForceToMove 10.0
+                Wait 1.0
+                SetTimer 0 3.0
+                UnsetAlert

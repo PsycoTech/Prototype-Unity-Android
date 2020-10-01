@@ -1,0 +1,64 @@
+tree "Alive"
+    fallback
+        tree "Sleep"
+        tree "Wander"
+        tree "Investigate"
+        tree "Attack"
+        tree "Search"
+
+tree "Sleep"
+    sequence
+        not SensorAny
+        not IsAwake
+        EntitySpeed 0.0
+        SetVisions 0
+        SetTrigger 1 1
+
+tree "Wander"
+    sequence
+        SetAwake 1
+        SetVisions 1
+        SetTrigger 1 0
+        EntityToMove
+        IsBored
+        EntitySpeed 1.0
+        mute
+            sequence
+                fallback
+                    IsMoveWaypoint
+                    MoveToWaypoint
+                EntityAtMove 2.0
+                tree "Hold"
+
+tree "Hold"
+    sequence
+        EntitySpeed 0.0
+        Wait 2.0
+        MoveToWaypoint
+
+tree "Investigate"
+    sequence
+        mute
+            fallback
+                MoveToTrigger
+                MoveToVision
+        not IsAware
+        tree "Search"
+
+tree "Search"
+    mute
+        sequence
+            EntitySpeed 1.0
+            EntityAtMove 1.0
+            Wait 2.0
+            MoveToOffsetRadius 10.0
+
+tree "Attack"
+    sequence
+        IsAlert
+        IsMoveEntity
+        EntityAtMove 5.0
+        EntitySpeed 0.0
+        EntityForceToMove 5.0
+        Wait 1.0
+        UnsetAlert

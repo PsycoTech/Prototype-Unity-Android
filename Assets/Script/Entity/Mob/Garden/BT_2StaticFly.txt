@@ -1,0 +1,23 @@
+tree "Alive"
+    sequence
+        tree "Wander"
+        tree "Attack"
+
+tree "Wander"
+    mute
+        sequence
+            EntityToMove
+            EntitySpeed 1.0
+            fallback
+                IsMoveWaypoint
+                MoveToWaypoint
+            EntityAtMove 1.0
+            MoveToWaypoint
+
+tree "Attack"
+    mute
+        sequence
+            SensorAny
+            not IsTimer 1
+            DoAttack 0 0 1
+            SetTimer 1 3.0

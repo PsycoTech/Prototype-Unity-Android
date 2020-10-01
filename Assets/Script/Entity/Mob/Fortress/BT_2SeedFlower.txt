@@ -1,0 +1,16 @@
+tree "Alive"
+    fallback
+        tree "Idle"
+        tree "Attack"
+
+tree "Idle"
+    sequence
+        not SensorAny
+        IsBored
+
+tree "Attack"
+    sequence
+        MoveToTrigger
+        IsDirection 5.0
+        DoAttack 0 0 0
+        Wait 2.5

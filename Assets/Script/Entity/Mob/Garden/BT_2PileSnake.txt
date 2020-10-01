@@ -1,0 +1,42 @@
+tree "Alive"
+    fallback
+        tree "Hatch"
+        tree "Wander"
+        tree "Attack"
+
+tree "Hatch"
+    sequence
+        not IsFlag 0
+        EntitySpeed 0.0
+        SetTrigger 0 1
+        SetTrigger 1 0
+        mute
+            sequence
+                SensorAny
+                SetFlag 0 1
+                SetTrigger 0 0
+                SetTrigger 1 1
+
+tree "Wander"
+    sequence
+        EntityToMove
+        not SensorAny
+        SetAttack 0 0
+        IsBored
+        mute
+            sequence
+                fallback
+                    IsMoveWaypoint
+                    MoveToWaypoint
+                EntityAtMove 0.1
+                EntitySpeed 0.0
+
+tree "Attack"
+    sequence
+        mute
+            MoveToTrigger
+        EntitySpeed 1.0
+        IsAlert
+        IsMoveEntity
+        EntityAtMove 1.0
+        SetAttack 0 1
